@@ -7,15 +7,20 @@ import { createClient } from '@/utils/supabase/server'
 export async function login(formData: FormData) {
     const supabase = await createClient()
 
-    const data = {
-        email: formData.get('email') as string,
-        password: formData.get('password') as string,
+    const email = formData.get('email') as string
+    const password = formData.get('password') as string
+
+    if (!email || !password) {
+        return { error: 'Email va parolni kiriting' }
     }
 
-    const { error } = await supabase.auth.signInWithPassword(data)
+    const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+    })
 
     if (error) {
-        redirect('/login?message=Could not authenticate user')
+        return { error: 'Email yoki parol xato' }
     }
 
     revalidatePath('/', 'layout')
@@ -25,17 +30,21 @@ export async function login(formData: FormData) {
 export async function signup(formData: FormData) {
     const supabase = await createClient()
 
-    const data = {
-        email: formData.get('email') as string,
-        password: formData.get('password') as string,
+    const email = formData.get('email') as string
+    const password = formData.get('password') as string
+
+    if (!email || !password) {
+        return { error: 'Email va parolni kiriting' }
     }
 
-    const { error } = await supabase.auth.signUp(data)
+    const { error } = await supabase.auth.signUp({
+        email,
+        password,
+    })
 
     if (error) {
-        redirect('/login?message=Could not authenticate user')
+        return { error: error.message }
     }
 
-    revalidatePath('/', 'layout')
-    redirect('/dashboard')
+    return { success: 'Hisob yaratildi! Emailingizni tekshiring yoki tizimga kiring.' }
 }

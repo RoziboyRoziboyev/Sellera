@@ -1,14 +1,7 @@
-import { login, signup } from './actions'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import LoginForm from './LoginForm'
 import { Ghost } from 'lucide-react'
 
-export default function LoginPage({
-    searchParams,
-}: {
-    searchParams: { message: string }
-}) {
+export default function LoginPage() {
     return (
         <div className="flex w-full h-screen items-center justify-center bg-neutral-50 p-4">
             <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-sm border border-neutral-200">
@@ -22,32 +15,7 @@ export default function LoginPage({
                     </p>
                 </div>
 
-                <form className="flex flex-col space-y-4">
-                    <div className="space-y-2">
-                        <Label htmlFor="email">Email manzil</Label>
-                        <Input id="email" name="email" type="email" placeholder="siz@example.com" required className="focus-visible:ring-emerald-500" />
-                    </div>
-
-                    <div className="space-y-2">
-                        <Label htmlFor="password">Parol</Label>
-                        <Input id="password" name="password" type="password" required className="focus-visible:ring-emerald-500" />
-                    </div>
-
-                    {searchParams?.message && (
-                        <p className="text-sm text-red-600 bg-red-50 p-3 rounded-lg text-center font-medium">
-                            {searchParams.message}
-                        </p>
-                    )}
-
-                    <div className="flex flex-col space-y-2 pt-4">
-                        <Button formAction={login} className="bg-emerald-600 hover:bg-emerald-700 font-medium">
-                            Tizimga kirish
-                        </Button>
-                        <Button formAction={signup} variant="outline" className="text-neutral-600 hover:text-neutral-900 font-medium">
-                            Hisob yaratish
-                        </Button>
-                    </div>
-                </form>
+                <LoginForm />
             </div>
         </div>
     )
