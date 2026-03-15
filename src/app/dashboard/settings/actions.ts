@@ -11,7 +11,10 @@ export async function updateTelegramId(formData: FormData) {
 
     const chatId = formData.get('telegram_chat_id') as string
 
-    await supabase.from('profiles').update({ telegram_chat_id: chatId }).eq('id', user.id)
+    const { error } = await supabase.from('profiles').update({ telegram_chat_id: chatId }).eq('id', user.id)
+
+    if (error) return { error: error.message }
 
     revalidatePath('/dashboard/settings')
+    return { success: true }
 }

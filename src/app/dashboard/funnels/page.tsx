@@ -2,6 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { PlusCircle } from 'lucide-react'
+import { submitForModeration } from './actions'
 
 export default async function FunnelsPage() {
     const supabase = await createClient()
@@ -53,7 +54,7 @@ export default async function FunnelsPage() {
                                         }`}>{p.status === 'approved' ? 'Tasdiqlangan' : p.status === 'rejected' ? 'Rad etilgan' : p.status === 'pending' ? 'Kutilmoqda' : p.status}</span>
                                 </div>
 
-                                <form action={async () => { 'use server'; const { submitForModeration } = await import('./actions'); await submitForModeration(p.id) }}>
+                                <form action={async () => { await submitForModeration(p.id) }}>
                                     <Button type="submit" variant="outline" size="sm" className="w-full border-emerald-200 text-emerald-700 hover:bg-emerald-50" disabled={p.status === 'approved' || p.status === 'pending'}>
                                         {p.status === 'approved' ? "Marketplaceda" : p.status === 'pending' ? "Kutilmoqda" : "Marketplacega chiqarish"}
                                     </Button>

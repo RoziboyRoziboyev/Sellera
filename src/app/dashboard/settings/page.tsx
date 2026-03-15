@@ -1,9 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { updateTelegramId } from './actions'
+import TelegramSettingsForm from './TelegramSettingsForm'
 
 export default async function SettingsPage() {
     const supabase = await createClient()
@@ -24,13 +21,7 @@ export default async function SettingsPage() {
                 <h3 className="text-lg font-bold text-neutral-900 mb-2">Telegram Bildirishnomalari</h3>
                 <p className="text-sm text-neutral-500 mb-6">Savdolar va yangi lidlar haqida tezkor bildirishnomalar olish uchun botga ulanib, Chat ID ni kiriting.</p>
 
-                <form action={updateTelegramId} className="space-y-4">
-                    <div className="space-y-2">
-                        <Label htmlFor="telegram_chat_id">Sizning Chat ID raqamingiz</Label>
-                        <Input id="telegram_chat_id" name="telegram_chat_id" defaultValue={profile?.telegram_chat_id || ''} placeholder="Masalan: 123456789" />
-                    </div>
-                    <Button type="submit" className="bg-emerald-600 hover:bg-emerald-700 w-full sm:w-auto px-8">Saqlash</Button>
-                </form>
+                <TelegramSettingsForm initialValue={profile?.telegram_chat_id || ''} />
             </div>
         </div>
     )
